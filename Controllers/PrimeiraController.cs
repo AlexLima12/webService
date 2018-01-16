@@ -7,15 +7,34 @@ namespace projetoWebServices.Controllers
     [Route("api/[controller]")]
     public class PrimeiraController : Controller
     {
+        //metodo get com parametro id
+        [HttpGet("{id}")]
+        
+        //action que enumera uma string
+        //sobrecarga de requisição
+        public string Get(int id)
+        {
+            //retornar um elemento do array de cidades de acordo com o paramentro id
+            return new string[]{
+                "Curitiba",
+                "Porto Alegra",
+                "Salvador",
+                "Belo Horizonte"
+            }[id];
+        }
+
         //metodo get
         [HttpGet]
         
-        //action que enumera uma string
+        //action que enumera uma lista de string string
         public IEnumerable<string> Get()
         {
-            //retornar um array de cidades
+            //retornar um elemento do array de cidades
             return new string[]{
-                "Curitiba","Porto Alegra","Salvador","Belo Horizonte"
+                "Curitiba",
+                "Porto Alegra",
+                "Salvador",
+                "Belo Horizonte"
             };
         }
     }
