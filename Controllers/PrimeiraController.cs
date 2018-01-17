@@ -78,7 +78,7 @@ namespace projetoWebServices.Controllers
             //chamando metodo
             cidades.Cadastrar(cidade);
             //criando rota de retorno, nome da rota, parametro, formato dos dados
-            return CreatedAtRoute("cidadeAtual", new {id = cidade.Id}, cidades);
+            return CreatedAtRoute("cidadeAtual", new {id = cidade.Id},cidade);
         }
         // [HttpPut("{Id}")]
         // public bool editar(int Id) {
