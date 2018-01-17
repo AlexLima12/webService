@@ -49,15 +49,40 @@ namespace projetoWebServices.Controllers
         public IEnumerable<Cidades> Get()
         {
             //retornando dados da lista
-            return cidades.Listar(); 
+            return cidades.Listar();
         }
 
-        //requisição get com parametro
-        [HttpGet("{Id}")]
+        //requisição get com parametro e com nome para ser usado como rota
+        [HttpGet("{Id}",Name="cidadeAtual")]
         //action que retonar um obj Cidades e recebe um parametro do EndPoint
-        public Cidades Get(int Id) {
+        public Cidades Get(int Id)
+        {
             //retornando metodo e filtrando com Linq e Lambda
             return cidades.Listar().Where(c => c.Id == Id).FirstOrDefault();
         }
+
+        //meto post
+        // [HttpPost]
+        // //pegando dados do body da pagina
+        // public bool Cadastrar([FromBody] Cidades cidade)
+        // {
+        //     //chamando metodo do cadastrar
+        //     return cidades.Cadastrar(cidade);
+        // }
+        
+        //metodo post
+        [HttpPost]
+        //retornando rota, puxando dados do body
+        public IActionResult Post([FromBody] Cidades cidade)
+        {
+            //chamando metodo
+            cidades.Cadastrar(cidade);
+            //criando rota de retorno, nome da rota, parametro, formato dos dados
+            return CreatedAtRoute("cidadeAtual", new {id = cidade.Id}, cidades);
+        }
+        // [HttpPut("{Id}")]
+        // public bool editar(int Id) {
+        //     return cidades.Atualizar(Id);
+        // }
     }
 }

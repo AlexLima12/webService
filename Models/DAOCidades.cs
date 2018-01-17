@@ -30,6 +30,7 @@ namespace projetoWebServices
                 cn.Open();
                 //lendo dados
                 sdr = cmd.ExecuteReader();
+                //laço para inseriror os dados na lista
                 while (sdr.Read())
                 {
                     Cidades cidade = new Cidades(Convert.ToInt32(sdr["Id"]), sdr["Nome"].ToString(), sdr["Estado"].ToString(), Convert.ToInt32(sdr["Habitantes"]));
@@ -37,20 +38,101 @@ namespace projetoWebServices
                 }
 
             }
-            catch(SqlException e)
+            //capturando exceções de sql
+            catch (SqlException e)
             {
+                //lançando exceções
                 throw new Exception("erro ao ler dados" + e.Message);
             }
-            catch(System.Exception ex)
+            //capturando exceções do sistema
+            catch (System.Exception ex)
             {
+                //lançando exceções do sistema
                 throw new Exception("erro inesperado do sistema" + ex.Message);
+            }
+            //fianlizando
+            finally
+            {
+                //fechanco conexão
+                cn.Close();
+            }
+
+            //retornando lista
+            return cidades;
+        }
+
+        public bool Cadastrar(Cidades cidades)
+        {
+            bool resultado = false;
+            try
+            {
+                //criando conexão
+                cn = new SqlConnection(stringCon);
+                //query
+                string sqlQuery = "INSERT INTO Cidades(Nome,Estado,Habitantes)VALUES(@n,@e,@h)";
+                //abrundo conexão
+                cn.Open();
+                //executando query
+                cmd = new SqlCommand(sqlQuery, cn);
+                //adicionando parametros na query
+                cmd.Parameters.AddWithValue("@n", cidades.Nome);
+                //adicionando parametros na query
+                cmd.Parameters.AddWithValue("@e", cidades.Estado);
+                //adicionando parametros na query
+                cmd.Parameters.AddWithValue("@h", cidades.Habitantes);
+                //sem query de retorno
+                int r = cmd.ExecuteNonQuery();
+                //se as alterações forem realizadas
+                if (r > 0)
+                {
+                    //retorn true
+                    resultado = true;
+                }
+
+                //limpa os parametros 
+                cmd.Parameters.Clear();
+            }
+            catch (SqlException e)
+            {
+                throw new Exception("Erro ao cadastrar dados no banco" + e);
+            }
+            catch (SystemException ex)
+            {
+                throw new Exception("Erro inesperado do sistema" + ex);
             }
             finally
             {
                 cn.Close();
             }
 
-            return cidades;
+            return resultado;
         }
+
+        // public bool Atualizar(Cidades cidade)
+        // {
+        //     bool resultado = false;
+        //     try
+        //     {
+        //         cn = new SqlConnection(stringCon);
+        //         string sqlQuery = "UPDATE Cidades SET id=@iNome=@n,Estado=@e,Habitantes=@h WHERE Id = @Id";
+        //         cmd = new SqlCommand(sqlQuery, cn);
+        //         cmd.Parameters.AddWithValue("@i", cidade.Id);
+        //         cmd.Parameters.AddWithValue("");
+
+        //     }
+        //     catch
+        //     {
+
+        //     }
+        //     catch
+        //     {
+
+        //     }
+        //     finally
+        //     {
+
+        //     }
+        //     return resultado;
+        // }
     }
 }
