@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using projetoWebServices.Models;
 
@@ -40,7 +41,7 @@ namespace projetoWebServices.Controllers
         // }
 
         //instanciando classe
-        Cidades cidades = new Cidades();
+        DAOCidades cidades = new DAOCidades();
         //requisição get
         [HttpGet]
 
@@ -49,6 +50,14 @@ namespace projetoWebServices.Controllers
         {
             //retornando dados da lista
             return cidades.Listar(); 
+        }
+
+        //requisição get com parametro
+        [HttpGet("{Id}")]
+        //action que retonar um obj Cidades e recebe um parametro do EndPoint
+        public Cidades Get(int Id) {
+            //retornando metodo e filtrando com Linq e Lambda
+            return cidades.Listar().Where(c => c.Id == Id).FirstOrDefault();
         }
     }
 }
