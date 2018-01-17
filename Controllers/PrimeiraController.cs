@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using projetoWebServices.Models;
 
 namespace projetoWebServices.Controllers
 {
@@ -7,35 +8,47 @@ namespace projetoWebServices.Controllers
     [Route("api/[controller]")]
     public class PrimeiraController : Controller
     {
-        //metodo get com parametro id
-        [HttpGet("{id}")]
-        
-        //action que enumera uma string
-        //sobrecarga de requisição
-        public string Get(int id)
-        {
-            //retornar um elemento do array de cidades de acordo com o paramentro id
-            return new string[]{
-                "Curitiba",
-                "Porto Alegra",
-                "Salvador",
-                "Belo Horizonte"
-            }[id];
-        }
+        // //metodo get com parametro id
+        // [HttpGet("{id}")]
 
-        //metodo get
+        // //action que enumera uma string
+        // //sobrecarga de requisição
+        // public string Get(int id)
+        // {
+        //     //retornar um elemento do array de cidades de acordo com o paramentro id
+        //     return new string[]{
+        //         "Curitiba",
+        //         "Porto Alegra",
+        //         "Salvador",
+        //         "Belo Horizonte"
+        //     }[id];
+        // }
+
+        // //metodo get
+        // [HttpGet]
+
+        // //action que enumera uma lista de string string
+        // public IEnumerable<string> Get()
+        // {
+        //     //retornar um elemento do array de cidades
+        //     return new string[]{
+        //         "Curitiba",
+        //         "Porto Alegra",
+        //         "Salvador",
+        //         "Belo Horizonte"
+        //     };
+        // }
+
+        //instanciando classe
+        Cidades cidades = new Cidades();
+        //requisição get
         [HttpGet]
-        
-        //action que enumera uma lista de string string
-        public IEnumerable<string> Get()
+
+        //action que enumera elementos de uma lista
+        public IEnumerable<Cidades> Get()
         {
-            //retornar um elemento do array de cidades
-            return new string[]{
-                "Curitiba",
-                "Porto Alegra",
-                "Salvador",
-                "Belo Horizonte"
-            };
+            //retornando dados da lista
+            return cidades.Listar(); 
         }
     }
 }
