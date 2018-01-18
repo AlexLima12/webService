@@ -108,31 +108,84 @@ namespace projetoWebServices
             return resultado;
         }
 
-        // public bool Atualizar(Cidades cidade)
-        // {
-        //     bool resultado = false;
-        //     try
-        //     {
-        //         cn = new SqlConnection(stringCon);
-        //         string sqlQuery = "UPDATE Cidades SET id=@iNome=@n,Estado=@e,Habitantes=@h WHERE Id = @Id";
-        //         cmd = new SqlCommand(sqlQuery, cn);
-        //         cmd.Parameters.AddWithValue("@i", cidade.Id);
-        //         cmd.Parameters.AddWithValue("");
+        public string Atualizar(Cidades cidade, int Id)
+        {
+            string resultado = null;
+            try
+            {
+                cn = new SqlConnection(stringCon);
+                string sqlQuery = "UPDATE Cidades SET Nome = @n, Estado = @e, Habitantes = @h WHERE Id = @Id";
+                cn.Open();
+                cmd = new SqlCommand(sqlQuery, cn);
+                cmd.Parameters.AddWithValue("@n", cidade.Nome);
+                cmd.Parameters.AddWithValue("@e", cidade.Estado);
+                cmd.Parameters.AddWithValue("@h", cidade.Habitantes);
+                cmd.Parameters.AddWithValue("@id", Id);
+                int r = cmd.ExecuteNonQuery();
+                if (r > 0)
+                {
+                    resultado = "Atualização realizada com sucesso.";
+                }
+                else
+                {
+                    resultado = "Não foi possível atualizar.";
+                }
 
-        //     }
-        //     catch
-        //     {
+                cmd.Parameters.Clear();
 
-        //     }
-        //     catch
-        //     {
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("erro ao atualizar dados no banco " + ex.Message);
+            }
+            catch (SystemException e)
+            {
+                throw new Exception("erro inesperado do sistema " + e.Message);
+            }
+            finally
+            {
+                cn.Close();
+            }
 
-        //     }
-        //     finally
-        //     {
+            return resultado;
+        }
 
-        //     }
-        //     return resultado;
-        // }
+        public string Deletar(int Id)
+        {
+            string resultado = null;
+            try
+            {
+                cn = new SqlConnection(stringCon);
+                string sqlQuery = "DELETE FROM Cidades WHERE Id = @Id";
+                cn.Open();
+                cmd = new SqlCommand(sqlQuery, cn);
+                cmd.Parameters.AddWithValue("@Id", Id);
+                int r = cmd.ExecuteNonQuery();
+                if (r > 0)
+                {
+                    resultado = "Dado deletado com sucesso.";
+                }
+                else
+                {
+                    resultado = "não foi possivel excluir dado";
+                }
+
+                cmd.Parameters.Clear();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao excluir dados do banco " + ex);
+            }
+            catch (SystemException e)
+            {
+                throw new Exception("Erro inesperado do sistema " + e);
+            }
+            finally
+            {
+                cn.Close();
+            }
+
+            return resultado;
+        }
     }
 }

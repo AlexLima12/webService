@@ -25,15 +25,5 @@ namespace projetoWebServices.Models
 
         }
 
-        //metodo que cria e retorna lista
-        public List<Cidades> Listar()
-        {
-            return new List<Cidades>(){
-                new Cidades(10,"Leme","SP",154),
-                new Cidades(51,"Curitiba","PR",547),
-                new Cidades(22,"Itu","SP",4578),
-                new Cidades(58,"Santos","SP",6589)
-            };
-        }
     }
 }

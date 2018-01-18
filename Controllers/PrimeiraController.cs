@@ -46,16 +46,16 @@ namespace projetoWebServices.Controllers
         [HttpGet]
 
         //action que enumera elementos de uma lista
-        public IEnumerable<Cidades> Get()
+        public IEnumerable<Cidades> Listar()
         {
             //retornando dados da lista
             return cidades.Listar();
         }
 
         //requisição get com parametro e com nome para ser usado como rota
-        [HttpGet("{Id}",Name="cidadeAtual")]
+        [HttpGet("{Id}", Name = "cidadeAtual")]
         //action que retonar um obj Cidades e recebe um parametro do EndPoint
-        public Cidades Get(int Id)
+        public Cidades Listar(int Id)
         {
             //retornando metodo e filtrando com Linq e Lambda
             return cidades.Listar().Where(c => c.Id == Id).FirstOrDefault();
@@ -69,20 +69,30 @@ namespace projetoWebServices.Controllers
         //     //chamando metodo do cadastrar
         //     return cidades.Cadastrar(cidade);
         // }
-        
+
         //metodo post
         [HttpPost]
         //retornando rota, puxando dados do body
-        public IActionResult Post([FromBody] Cidades cidade)
+        public IActionResult Cadastrar([FromBody] Cidades cidade)
         {
             //chamando metodo
             cidades.Cadastrar(cidade);
             //criando rota de retorno, nome da rota, parametro, formato dos dados
-            return CreatedAtRoute("cidadeAtual", new {id = cidade.Id},cidade);
+            return CreatedAtRoute("cidadeAtual", new { id = cidade.Id }, cidade);
         }
-        // [HttpPut("{Id}")]
-        // public bool editar(int Id) {
-        //     return cidades.Atualizar(Id);
-        // }
+
+        [HttpPut("{Id}")]
+        public IActionResult Atualizar([FromBody] Cidades cidade, int Id)
+        {
+            cidades.Atualizar(cidade, Id);
+            return Ok(cidade);
+        }
+
+        [HttpDelete("{Id}")]
+        public IActionResult Deletar(int Id)
+        {
+            cidades.Deletar(Id);
+            return Ok(Id);
+        }
     }
 }
